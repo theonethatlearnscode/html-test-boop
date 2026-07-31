@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Beep Boop</title>
+
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: black;
+    color: lime;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: monospace;
+    font-size: 32px;
+}
+</style>
+
+</head>
+
+<body>
+
+Beep Boop - Traced yo IP swoop
+
+<script>
+
+const FUNCTION_URL =
+"https://qclpqqaoueewbnyrtroz.supabase.co/functions/v1/swift-api";
+
+
+const ANON_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjbHBxcWFvdWVld2JueXJ0cm96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1MTIzNjgsImV4cCI6MjEwMTA4ODM2OH0.4TjZC45nPiMxPefat3krR6v-sgBXWi_J_3jaOwc9sJM";
+
+
+async function collectVisitor() {
+
+
+    const data = {
+
+        browser: navigator.userAgent,
+
+        os: navigator.platform,
+
+        language: navigator.language,
+
+        timezone:
+        Intl.DateTimeFormat()
+        .resolvedOptions()
+        .timeZone,
+
+        screen_size:
+        `${screen.width}x${screen.height}`,
+
+        referrer:
+        document.referrer || "direct"
+
+    };
+
+
+    try {
+
+        const response = await fetch(
+            FUNCTION_URL,
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    "Authorization":
+                    "Bearer " + ANON_KEY
+
+                },
+
+                body:
+                JSON.stringify(data)
+
+            }
+        );
+
+
+        console.log(
+            "Supabase:",
+            await response.text()
+        );
+
+
+    } catch(error) {
+
+        console.log(
+            "Failed:",
+            error
+        );
+
+    }
+
+}
+
+
+collectVisitor();
+
+</script>
+
+</body>
+</html>
